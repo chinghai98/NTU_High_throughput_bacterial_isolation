@@ -1,0 +1,3 @@
+This version of the code is NOT ready for use yet as the labware are not printed out yet and no measurements have been made.
+
+This will be removed when the appropriate measurements are taken and the proper JSON Files describing the custom labware is added into the "Protocol" folder
