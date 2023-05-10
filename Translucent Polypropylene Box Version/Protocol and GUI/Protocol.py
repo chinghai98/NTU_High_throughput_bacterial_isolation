@@ -118,7 +118,7 @@ def run (protocol:protocol_api.ProtocolContext):
     box_list = [sample_box_1, sample_box_2, sample_box_3]
     
     # Create rack list to determine how many && which rack to aspirate from
-    rack_list = [rack_1, rack_2]
+    rack_list = [rack_1]
     
     # Create a deep_plate list to determine how many && which deep-well plate to dispense into
     well_list = [deep_well_1,deep_well_2,deep_well_3]
@@ -147,8 +147,8 @@ def run (protocol:protocol_api.ProtocolContext):
     
     # Coordinates for the microtube holder
     rack_coord = np.array([]) # NumPy array to store coordinates of the microtube tubes
-    alphabet_rack = ['A','B','C','D','E','F']
-    number_rack = ['1','2','3','4','5','6']
+    alphabet_rack = ['A','B','C','D','E','F','G','H']
+    number_rack = ['1','2','3','4','5','6','7','8','9','10','11','12']
     for alpha_rack in alphabet_rack:
         for num_rack in number_rack:
             coord_rack = alpha_rack + num_rack
@@ -172,17 +172,12 @@ def run (protocol:protocol_api.ProtocolContext):
         while z <= samples:
             
             # Choose which rack to pick environmental sample from
-            if z <= 36:
+            if z <= 96:
                 rack = rack_list[0]
-            else:
-                rack = rack_list[1]
             
             # Choose which centrifuge tube the machine picks up from (for each rack)
-            if z <= 36:
+            if z <= 96:
                 tube = rack_coord[z-1]
-            elif z > 36: # If user input value is larger than 36 tubes per rack, it will still pick the correct tube from the correct rack
-                div = (z-1) % 36 # Determines which coordinate tube to pick from (when input sample > 36)
-                tube = rack_coord[div-1]
             
             # Choose which deep-well plate to dispense environmental sample into
             if z <= 24:
@@ -197,10 +192,10 @@ def run (protocol:protocol_api.ProtocolContext):
             # As we only want -3 samples to be present in columns 1,4,7 && 10 for rows A-F, we slice the original NumPy array which has coordinates of all 96 wells in the deep-well plate
             well_operation_coord = well_coord[0:-1:3]
             
-            if z <= 24:
+            if z <= 32:
                 well_dispense_coord = well_operation_coord[z-1]
-            elif z > 24:
-                divi = (z - 1) % 24
+            elif z > 32:
+                divi = (z - 1) % 32
                 well_dispense_coord = well_operation_coord[divi-1]
             
             left.pick_up_tip()
@@ -225,9 +220,9 @@ def run (protocol:protocol_api.ProtocolContext):
     def serial_dilution(samples):
 
         # Decide how many deep_well_plates have been pipetted into from the 'transferring' function and print out the array containing these wells
-        if samples <= 24:
+        if samples <= 32:
             wells = well_list[0:1]
-        elif 24 < samples <= 48:
+        elif 32 < samples <= 64:
             wells = well_list[0:2]
         else:
             wells = well_list[0:3]        
@@ -328,13 +323,13 @@ def run (protocol:protocol_api.ProtocolContext):
                 # Column_Set_1 transfer from Deep-well plate to PP_box w/ 3D_grids
                 
                 # log(5) diluted triplet
-                'A3':['A12','A11','A10'],    
+                'A3':['A11','A10','A9'],    
                 
                 # log(4) diluted triplet
-                'A2':['A8','A7','A6'],
+                'A2':['A7','A6','A5'],
 
                 # log(3) diluted triplet
-                'A1':['A4','A3','A2'], 
+                'A1':['A3','A2','A1'], 
                 
             }   
                 
@@ -356,13 +351,13 @@ def run (protocol:protocol_api.ProtocolContext):
                 # Column_Set_3 transfer from Deep-well plate to PP_box w/ 3D_grids
                 
                 # log(5) diluted triplet
-                'A9':['B12','B11','B10'], 
+                'A9':['B11','B10','B9'], 
                 
                 # log(4) diluted triplet
-                'A8':['B8','B7','B6'], 
+                'A8':['B7','B6','B5'], 
                 
                 # log(3) diluted triplet
-                'A7':['B4','B3','B2'], 
+                'A7':['B3','B2','B1'], 
                 
             }
                 
@@ -382,18 +377,18 @@ def run (protocol:protocol_api.ProtocolContext):
         
         # Determine how many boxes && how many Deep-well plates to use
         
-        if samples <= 24:
+        if samples <= 32:
             boxes = box_list[0:1]
-        elif 24 < samples <= 48:
+        elif 32 < samples <= 64:
             boxes = box_list[0:2]
-        elif 48 < samples <= 72:
+        elif 64 < samples <= 96:
             boxes = box_list[0:3]
         
-        if samples <= 24:
+        if samples <= 32:
             wells = well_list[0:1]
-        elif 24 < samples <= 48:
+        elif 32 < samples <= 64:
             wells = well_list[0:2]
-        elif 48 < samples <= 72:
+        elif 64 < samples <= 96:
             wells = well_list[0:3]
         
         
@@ -460,27 +455,27 @@ def run (protocol:protocol_api.ProtocolContext):
             right.drop_tip()
             
         for box,well in zip(boxes,wells):
-            if leftover <= 24:
+            if leftover <= 32:
                 
                 if leftover == 1:
                     for box,well in zip(boxes,wells):
                         quad_grid()
                 
-                if 2 < leftover <= 12:
+                if 2 < leftover <= 16:
                     for box,well in zip(boxes,wells):
                         half_grid()
                         
-                if leftover == 13:
+                if leftover == 17:
                     for box,well in zip(boxes,wells):
                         three_quads()
                 
-                if 13 < leftover <= 24:
+                if 17 < leftover <= 32:
                     for box,well in zip(boxes,wells):
                         full_grid()
             
-            elif leftover > 24:
+            elif leftover > 32:
                 full_grid()
-                leftover = leftover -12
+                leftover = leftover -32
     transfer(samples)
     serial_dilution(samples)
     plating(samples)
