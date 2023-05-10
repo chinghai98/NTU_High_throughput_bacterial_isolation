@@ -46,8 +46,7 @@ def run (protocol:protocol_api.ProtocolContext):
     sample_box_3 = protocol.load_labware_from_definition(LABWARE_DEF_grid,'4',LABWARE_LABEL_grid)
     
     # Racks holding the environmental stock solution at log(2) dilution
-    rack_1 = protocol.load_labware_from_definition(LABWARE_DEF_microtube_holder, '10',LABWARE_LABEL_microtube_holder)
-    rack_2 = protocol.load_labware_from_definition(LABWARE_DEF_microtube_holder, '11',LABWARE_LABEL_microtube_holder)
+    rack_1 = protocol.load_labware_from_definition(LABWARE_DEF_centrifuge_holder, '10',LABWARE_LABEL_centrifuge_holder)
     
     # NEST 96-well deep well plates
     deep_well_1 = protocol.load_labware_from_definition(LABWARE_DEF_deep_well, '5', LABWARE_LABEL_deep_well)
@@ -145,7 +144,7 @@ def run (protocol:protocol_api.ProtocolContext):
             coord_well_multi = alpha_well_multi + num_well_multi
             well_coord_multi = np.append(well_coord_multi, coord_well_multi)
     
-    # Coordinates for the microtube holder
+    # Coordinates for the centrifuge tube holder
     rack_coord = np.array([]) # NumPy array to store coordinates of the microtube tubes
     alphabet_rack = ['A','B','C','D','E','F','G','H']
     number_rack = ['1','2','3','4','5','6','7','8','9','10','11','12']
@@ -180,9 +179,9 @@ def run (protocol:protocol_api.ProtocolContext):
                 tube = rack_coord[z-1]
             
             # Choose which deep-well plate to dispense environmental sample into
-            if z <= 24:
+            if z <= 32:
                 well = well_list[0]
-            elif 24 < z <= 48:
+            elif 32 < z <= 64:
                 well = well_list[1]
             else:
                 well = well_list[2]
