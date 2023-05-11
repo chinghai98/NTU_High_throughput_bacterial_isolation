@@ -155,8 +155,8 @@ def run (protocol:protocol_api.ProtocolContext):
     
     # Coordinates for PP_box w/ 3D_printed grids
     grid_coord = np.array([])
-    alphabet_grid = ['A','B','C','D','E','F','G','H','I','J','K','L']
-    number_grid = ['2','3','4','6','7','8','10','11','12','14','15','16','18','19','20','22','23','24']
+    alphabet_grid = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P']
+    number_grid = ['1','2','3','5','6','7','9','10','11','14','15','16','18','19','20','22','23','24']
     for alpha_grid in alphabet_grid:
         for num_grid in number_grid:
             coord_grid = alpha_grid + num_grid
