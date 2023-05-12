@@ -1,1 +1,5 @@
-DO NOT use anything from this folder until further notice. Some codes, CAD designs and JSON files need to be modified
+The "GUI.py" file was converted into the .exe form using "psgcompiler"
+
+Please pip install the following Python modules before using the python files:
+- Numpy
+- Opentrons
