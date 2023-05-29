@@ -80,10 +80,10 @@ def run (protocol:protocol_api.ProtocolContext):
     # you are using a GEN2 P20 8-Channel in which case change it to 
     # 0.075)
 
-    pick_up_current = num_channels_per_pickup*per_tip_pickup_current
+    '''pick_up_current = num_channels_per_pickup*per_tip_pickup_current
     protocol._hw_manager.hardware._attached_instruments[
         right._implementation.get_mount()].update_config_item(
-        'pick_up_current', pick_up_current)
+        'pick_up_current', pick_up_current)'''
     
     '''Parameters for aspiration & dispensation'''
     
